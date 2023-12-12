@@ -49,14 +49,21 @@ TEST_F(BookTest, shouldGeneratePublisher)
 
 TEST_F(BookTest, shouldGenerateIsbn)
 {
-    const auto bookIsbn = Book::isbn();
+    const auto generatedIsbn13 = Book::isbn();
 
-    const auto isbnNumbersGroups = StringHelper::split(bookIsbn, "-");
+    int sum = 0;
+    for (size_t i = 0; i < 13; i++)
+    {
+        if (i % 2 == 0)
+        {
+            sum += (generatedIsbn13[i] - '0');
+        }
+        else
+        {
+            sum += 3 * (generatedIsbn13[i] - '0');
+        }
+    }
 
-    ASSERT_EQ(bookIsbn.size(), 17);
-    ASSERT_EQ(isbnNumbersGroups[0].size(), 3);
-    ASSERT_EQ(isbnNumbersGroups[1].size(), 2);
-    ASSERT_EQ(isbnNumbersGroups[2].size(), 2);
-    ASSERT_EQ(isbnNumbersGroups[3].size(), 5);
-    ASSERT_EQ(isbnNumbersGroups[4].size(), 1);
+    ASSERT_EQ(generatedIsbn13.size(), 13);
+    ASSERT_TRUE(sum % 10 == 0);
 }

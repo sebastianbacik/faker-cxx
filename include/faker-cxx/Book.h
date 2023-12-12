@@ -52,12 +52,12 @@ public:
     static std::string publisher();
 
     /**
-     * @brief Returns a random book ISBN.
+     * @brief Returns a random valid ISBN.
      *
      * @returns Book ISBN.
      *
      * @code
-     * Book::isbn() // "978-83-01-00000-1"
+     * Book::isbn() // "9781234567897"
      * @endcode
      */
     static std::string isbn();
