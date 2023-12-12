@@ -97,6 +97,17 @@ public:
     static std::string suffix();
 
     /**
+     * @brief Returns a random bio.
+     *
+     * @returns Bio.
+     *
+     * @code
+     * Person::bio() //"Developer"
+     * @endcode
+     */
+    static std::string bio();
+
+    /**
      * @brief Returns a sex.
      *
      * @returns Sex.
@@ -105,7 +116,7 @@ public:
      * Person::sex() // "Male"
      * @endcode
      */
-    static std::string sex();
+    static std::string sex(Language language = Language::English);
 
     /**
      * @brief Returns a random gender.

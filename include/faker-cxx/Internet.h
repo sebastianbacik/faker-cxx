@@ -30,6 +30,14 @@ enum class IPv4Class
     C
 };
 
+struct PasswordOptions
+{
+    bool upperLetters = true;
+    bool lowerLetters = true;
+    bool numbers = true;
+    bool symbols = true;
+};
+
 class Internet
 {
 public:
@@ -100,7 +108,7 @@ public:
      * Internet::password(25) // "xv8vDu*wM!Rg0$zd0kH%8p!WY"
      * @endcode
      */
-    static std::string password(int length = 15);
+    static std::string password(int length = 15, PasswordOptions options = {});
 
     /**
      * @brief Returns a random emoji.
@@ -115,6 +123,19 @@ public:
      * @endcode
      */
     static std::string emoji(std::optional<EmojiType> type = std::nullopt);
+
+    /**
+     * @brief Verify that a given emoji is valid.
+     *
+     * @param emojiToCheck the emoji to check.
+     *
+     * @returns true if emojiToCheck is found in one of the vectors, false otherwise.
+     *
+     * @code
+     * Internet::checkIfEmojiIsValid("👑") // true
+     * @endcode
+     */
+    static bool checkIfEmojiIsValid(const std::string& emojiToCheck);
 
     /**
      * @brief Returns a random web protocol. Either `http` or `https`.

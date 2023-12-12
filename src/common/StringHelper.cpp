@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <cctype>
+#include <codecvt>
+#include <locale>
 #include <sstream>
 
 namespace faker
@@ -78,4 +80,5 @@ std::string StringHelper::removePunctuation(const std::string& word)
 
     return result;
 }
+
 }

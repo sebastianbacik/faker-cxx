@@ -37,7 +37,7 @@ enum class Country
     Austria,
     Switzerland,
     Belgium,
-    Nederlands,
+    Netherlands,
     China,
     Korea,
     Canada,
@@ -46,6 +46,12 @@ enum class Country
     Australia,
     Serbia,
     Macedonia,
+    Albania,
+    Latvia,
+    Ireland,
+    Belarus,
+    Estonia,
+    Iran,
 };
 
 const std::vector<Country> countries{
@@ -54,9 +60,10 @@ const std::vector<Country> countries{
     Country::Nepal,     Country::Spain,    Country::Turkey,      Country::Czech,   Country::Slovakia,
     Country::Ukraine,   Country::Denmark,  Country::Sweden,      Country::Brazil,  Country::Norway,
     Country::Japan,     Country::Portugal, Country::Hungary,     Country::Croatia, Country::Greece,
-    Country::Slovenia,  Country::Austria,  Country::Switzerland, Country::Belgium, Country::Nederlands,
+    Country::Slovenia,  Country::Austria,  Country::Switzerland, Country::Belgium, Country::Netherlands,
     Country::China,     Country::Korea,    Country::Canada,      Country::Mexico,  Country::Argentina,
-    Country::Australia, Country::Serbia,   Country::Macedonia,
+    Country::Australia, Country::Serbia,   Country::Macedonia,   Country::Albania, Country::Latvia,  Country::Ireland,
+    Country::Belarus,   Country::Estonia,Country::Iran,
 };
 
 inline std::string toString(Country country)
@@ -91,7 +98,7 @@ inline std::string toString(Country country)
         {Country::Austria, "Austria"},
         {Country::Switzerland, "Switzerland"},
         {Country::Belgium, "Belgium"},
-        {Country::Nederlands, "Nederlands"},
+        {Country::Netherlands, "Netherlands"},
         {Country::China, "China"},
         {Country::Korea, "Korea"},
         {Country::Canada, "Canada"},
@@ -100,6 +107,12 @@ inline std::string toString(Country country)
         {Country::Australia, "Australia"},
         {Country::Serbia, "Serbia"},
         {Country::Macedonia, "Macedonia"},
+        {Country::Albania, "Albania"},
+        {Country::Latvia, "Latvia"},
+        {Country::Ireland, "Ireland"},
+        {Country::Belarus, "Belarus"},
+        {Country::Estonia, "Estonia"},
+        {Country::Iran, "Iran"}
     };
 
     return countryToStringMapping.at(country);

@@ -5,10 +5,13 @@
 #include <set>
 
 #include "../../common/FormatHelper.h"
+#include "data/albania/AlbanianPeopleNames.h"
 #include "data/argentina/ArgentinianPeopleNames.h"
 #include "data/australia/AustralianPeopleNames.h"
 #include "data/austria/AustrianPeopleNames.h"
+#include "data/belarus/BelarusianPeopleNames.h"
 #include "data/belgium/BelgianPeopleNames.h"
+#include "data/Bio.h"
 #include "data/brazil/BrazilianPeopleNames.h"
 #include "data/canada/CanadianPeopleNames.h"
 #include "data/china/ChinesePeopleNames.h"
@@ -16,6 +19,7 @@
 #include "data/czech/CzechPeopleNames.h"
 #include "data/denmark/DanishPeopleNames.h"
 #include "data/england/EnglishPeopleNames.h"
+#include "data/estonia/EstonianPeopleNames.h"
 #include "data/finland/FinnishPeopleNames.h"
 #include "data/france/FrenchPeopleNames.h"
 #include "data/Gender.h"
@@ -24,15 +28,18 @@
 #include "data/Hobbies.h"
 #include "data/hungary/HungarianPeopleNames.h"
 #include "data/india/IndianPeopleNames.h"
+#include "data/iran/PersianPeopleNames.h"
+#include "data/ireland/IrishPeopleNames.h"
 #include "data/italy/ItalianPeopleNames.h"
 #include "data/japan/JapanesePeopleNames.h"
 #include "data/JobTitles.h"
 #include "data/korea/KoreanPeopleNames.h"
 #include "data/Languages.h"
+#include "data/latvia/LatvianPeopleNames.h"
 #include "data/macedonia/MacedonianPeopleNames.h"
 #include "data/mexico/MexicanPeopleNames.h"
 #include "data/Nationalities.h"
-#include "data/nederlands/DutchPeopleNames.h"
+#include "data/netherlands/DutchPeopleNames.h"
 #include "data/nepal/NepalesePeopleNames.h"
 #include "data/norway/NorwegianPeopleNames.h"
 #include "data/poland/PolishPeopleNames.h"
@@ -49,6 +56,8 @@
 #include "data/ukraine/UkrainianPeopleNames.h"
 #include "data/usa/UsaPeopleNames.h"
 #include "data/ZodiacSigns.h"
+#include "faker-cxx/Word.h"
+#include "faker-cxx/Internet.h"
 #include "faker-cxx/Helper.h"
 #include "fmt/format.h"
 
@@ -73,12 +82,14 @@ const std::map<Country, PeopleNames> countryToPeopleNamesMapping{
     {Country::Hungary, hungarianPeopleNames},     {Country::Croatia, croatianPeopleNames},
     {Country::Greece, greekPeopleNames},          {Country::Slovenia, slovenianPeopleNames},
     {Country::Austria, austrianPeopleNames},      {Country::Switzerland, swissPeopleNames},
-    {Country::Belgium, belgianPeopleNames},       {Country::Nederlands, dutchPeopleNames},
+    {Country::Belgium, belgianPeopleNames},       {Country::Netherlands, dutchPeopleNames},
     {Country::China, chinesePeopleNames},         {Country::Korea, koreanPeopleNames},
     {Country::Canada, canadianPeopleNames},       {Country::Mexico, mexicanPeopleNames},
     {Country::Argentina, argentinianPeopleNames}, {Country::Australia, australianPeopleNames},
     {Country::Serbia, serbianPeopleNames},        {Country::Macedonia, macedonianPeopleNames},
-};
+    {Country::Latvia, latvianPeopleNames},        {Country::Ireland, irishPeopleNames},
+    {Country::Belarus, belarusianPeopleNames},    {Country::Estonia, estonianPeopleNames},
+    {Country::Albania, albanianPeopleNames},      {Country::Iran,persianPeopleNames}};
 
 std::string middleNameForCountry(Country country, std::optional<Sex> sex);
 std::string prefixForCountry(Country country, std::optional<Sex> sex);
@@ -256,6 +267,21 @@ std::string Person::prefix(std::optional<Sex> sex)
     return Helper::arrayElement<std::string>(allPrefixes);
 }
 
+
+std::string Person::bio()
+{
+    const auto randomBioFormat = Helper::arrayElement<std::string>(bioFormats);
+
+
+    const auto dataGeneratorsMapping = std::map<std::string, std::function<std::string()>>{
+        {"bio_part", []() { return Helper::arrayElement(bioPart);}},
+        {"bio_supporter", []() { return Helper::arrayElement(bioSupporter); }},
+        {"noun", []() { return Word::noun();}},
+        {"emoji", []() { return Internet::emoji();}}};
+        
+    return FormatHelper::fillTokenValues(randomBioFormat, dataGeneratorsMapping);
+}
+
 std::string Person::suffix()
 {
     std::vector<std::string> allSuffixes;
@@ -280,9 +306,13 @@ std::string Person::suffix()
     return Helper::arrayElement<std::string>(allSuffixes);
 }
 
-std::string Person::sex()
+std::string Person::sex(Language language)
 {
-    return Helper::arrayElement<std::string>(sexes);
+    std::string chosenSex = Helper::arrayElement<std::string>(sexes);
+
+    Sex sexEnum = chosenSex == "Male" ? Sex::Male : Sex::Female;
+
+    return translateSex(sexEnum, language);
 }
 
 std::string Person::gender()
